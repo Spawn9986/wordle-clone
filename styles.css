@@ -1,0 +1,48 @@
+body {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  border: 3px solid black;
+  margin: 7% 35%;
+}
+
+.row-1 {
+  height: 50px;
+  padding: 50px;
+  border: 1px solid black;
+}
+
+.row-2 {
+  height: 50px;
+  padding: 50px;
+  border: 1px solid black;
+}
+
+.row-3 {
+  height: 50px;
+  padding: 50px;
+  border: 1px solid black;
+}
+
+.row-4 {
+  height: 50px;
+  padding: 50px;
+  border: 1px solid black;
+}
+
+.row-5 {
+  height: 50px;
+  padding: 50px;
+  border: 1px solid black;
+}
+
+.row-6 {
+  height: 50px;
+  padding: 50px;
+  border: 1px solid black;
+}
