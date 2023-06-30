@@ -1,6 +1,10 @@
+//============= GLOBAL VARIABLES ==============
 // select the DOM element for all the boxes and group into an array to iterate over later
 const boxes = document.querySelectorAll(".itm");
 let index = 0;
+let previousKey;
+
+//============= LOGIC =========================
 
 // add keydown event that renders the key pressed into the box and iterates over the boxes like an array progressively allowing each key to render in the next box.
 function init() {
@@ -10,34 +14,49 @@ function init() {
 function keyDown(event) {
   const key = event.key;
   if (key === "Backspace") {
-    console.log("index before BS:", index);
-    if (index > 3) {
-      boxes[index].innerText = "";
-      console.log("index after BS:", index);
-    } else {
-      boxes[index - 1].innerText = "";
-      index -= 1;
-      console.log("index after BS:", index);
-    }
+    handleBackspace();
   }
   /* if (event.key === "Enter") {
-      skip for now..for later:
-      add validate word function
-      change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
+     handleEnter();
     } */
   //if key is not a letter ignore
   if (!isLetter(key)) {
     event.preventDefault();
-  } else {
-    boxes[index].innerText = key.toUpperCase();
-    //only allow 5 letters at a time.
-    if (index > 3) {
-      return;
+  }
+  if (isLetter(key)) {
+    handleLetter(key);
+  }
+  previousKey = key;
+}
+
+function handleBackspace() {
+  if (index > 3) {
+    if (previousKey === "Backspace") {
+      boxes[index - 1].innerText = "";
+      index -= 1;
     } else {
-      //only increase index and move to the next box if user keys a valid letter and not beyond 5 letters
-      index++;
-      console.log("index:", index);
+      boxes[index].innerText = "";
     }
+  } else {
+    boxes[index - 1].innerText = "";
+    index -= 1;
+  }
+}
+
+/* function handleEnter() {
+ skip for now..for later:
+      add validate word function
+      change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
+} */
+
+function handleLetter(value) {
+  boxes[index].innerText = value.toUpperCase();
+  //only allow 5 letters at a time.
+  if (index > 3) {
+    return;
+  } else {
+    //only increase index and move to the next box if user keys a valid letter and not beyond 5 letters
+    index++;
   }
 }
 
