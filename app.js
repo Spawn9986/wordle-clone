@@ -17,13 +17,18 @@ function keyDown(event) {
     handleBackspace();
   }
   if (event.key === "Enter") {
+    //convert nodelist returned from querySelectAll to an array
     let arr = Array.from(boxes);
+    // create sub-array of only index 0 through 5.
     arr = arr.slice(0, 5);
     let newArr = [];
+    //iterate over the sub-array pushing the inner text of each into a new array
     for (let i = 0; i < arr.length; i++) {
       newArr.push(arr[i].innerText);
     }
+    //convert array of letters into a joined 5 letter string (i.e., a word)
     let string = newArr.join("");
+    console.log(string);
     handleEnter(string);
   }
   //if key is not a letter ignore
@@ -54,17 +59,19 @@ function handleBackspace() {
   }
 }
 
-function handleEnter(word) {
-  async function validateWord(word) {
+function handleEnter(currentGuess) {
+  console.log("entered handleEnter");
+  async function validateWord(currentGuess) {
+    console.log("entered validateWord");
     const response = await fetch("https://words.dev-apis.com/validate-word", {
       method: "POST",
-      body: {
-        "word": "`${word}`",
-      },
+      body: JSON.stringify({ word: currentGuess }),
     });
+    console.log("response:", response);
     const data = await response.json();
-    return data.isValid;
+    console.log("data", data);
     console.log(data.isValid);
+    return data.isValid;
   }
   //change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
 }
