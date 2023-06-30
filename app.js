@@ -16,9 +16,16 @@ function keyDown(event) {
   if (key === "Backspace") {
     handleBackspace();
   }
-  /* if (event.key === "Enter") {
-     handleEnter();
-    } */
+  if (event.key === "Enter") {
+    let arr = Array.from(boxes);
+    arr = arr.slice(0, 5);
+    let newArr = [];
+    for (let i = 0; i < arr.length; i++) {
+      newArr.push(arr[i].innerText);
+    }
+    let string = newArr.join("");
+    handleEnter(string);
+  }
   //if key is not a letter ignore
   if (!isLetter(key)) {
     event.preventDefault();
@@ -30,11 +37,15 @@ function keyDown(event) {
 }
 
 function handleBackspace() {
+  //current issue: when index === 4 (after index 3 finishes) & prevKey != backspace doesnt work right
   if (index > 3) {
     if (previousKey === "Backspace") {
       boxes[index - 1].innerText = "";
       index -= 1;
     } else {
+      /* else if () {
+
+    } */
       boxes[index].innerText = "";
     }
   } else {
@@ -43,11 +54,20 @@ function handleBackspace() {
   }
 }
 
-/* function handleEnter() {
- skip for now..for later:
-      add validate word function
-      change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
-} */
+function handleEnter(word) {
+  async function validateWord(word) {
+    const response = await fetch("https://words.dev-apis.com/validate-word", {
+      method: "POST",
+      body: {
+        "word": "`${word}`",
+      },
+    });
+    const data = await response.json();
+    return data.isValid;
+    console.log(data.isValid);
+  }
+  //change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
+}
 
 function handleLetter(value) {
   boxes[index].innerText = value.toUpperCase();
@@ -75,7 +95,3 @@ function isLetter(letter) {
 
 getWord();
 init();
-
-/* for API call
-
-POST https://words.dev-apis.com/validate-word */
