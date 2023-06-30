@@ -2,45 +2,61 @@
 const boxes = document.querySelectorAll(".itm");
 let index = 0;
 
-getData();
-
 // add keydown event that renders the key pressed into the box and iterates over the boxes like an array progressively allowing each key to render in the next box.
-document.addEventListener("keydown", function (event) {
+function init() {
+  document.addEventListener("keydown", keyDown);
+}
+
+function keyDown(event) {
   const key = event.key;
-  console.log(event.key);
-  if (event.key === "Backspace") {
-    boxes[index - 1].innerText = "";
-    index -= 1;
+  if (key === "Backspace") {
+    console.log("index before BS:", index);
+    if (index > 3) {
+      boxes[index].innerText = "";
+      console.log("index after BS:", index);
+    } else {
+      boxes[index - 1].innerText = "";
+      index -= 1;
+      console.log("index after BS:", index);
+    }
   }
   /* if (event.key === "Enter") {
-    skip for now..for later:
-    add validate word function
-    change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
-  } */
+      skip for now..for later:
+      add validate word function
+      change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
+    } */
   //if key is not a letter ignore
-  if (!isLetter(event.key)) {
+  if (!isLetter(key)) {
     event.preventDefault();
   } else {
     boxes[index].innerText = key.toUpperCase();
-    //only increase index and move to the next box if user keys a valid letter
-    index++;
+    //only allow 5 letters at a time.
+    if (index > 3) {
+      return;
+    } else {
+      //only increase index and move to the next box if user keys a valid letter and not beyond 5 letters
+      index++;
+      console.log("index:", index);
+    }
   }
-});
+}
+
+// retrieve word of the day from API
+async function getWord() {
+  let response = await fetch("https://words.dev-apis.com/word-of-the-day");
+  response = await response.json();
+  console.log(response);
+  return response;
+}
 
 //check if the key pressed by user is a single letter using a regular expression which defines a search pattern for parsing and finding matches in a given string with the test() method. The /[a-zA-Z]/ regex means "match all strings that start with a letter".
 function isLetter(letter) {
   return /^[a-zA-Z]$/.test(letter);
 }
 
-async function getData() {
-  const response = await fetch("https://words.dev-apis.com/word-of-the-day");
-  const data = await response.json();
-  console.log(data);
-  return data;
-}
+getWord();
+init();
 
-/* for API calls
-
-GET https://words.dev-apis.com/word-of-the-day
+/* for API call
 
 POST https://words.dev-apis.com/validate-word */
