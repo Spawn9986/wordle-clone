@@ -9,17 +9,15 @@ let currentAttempt = 0;
 //============= LOGIC =========================
 
 // retrieve word of the day from API
-async function getWord() {
-  let response = await fetch("https://words.dev-apis.com/word-of-the-day");
+async function getWord(url) {
+  let response = await fetch(url);
   response = await response.json();
   console.log(response);
   return response;
 }
 
 // add keydown event that renders the key pressed into the box and iterates over the boxes like an array progressively allowing each key to render in the next box.
-function init() {
-  document.addEventListener("keydown", keyDown);
-}
+document.addEventListener("keydown", keyDown);
 
 function keyDown(event) {
   const key = event.key;
@@ -77,7 +75,7 @@ function handleBackspace() {
 
 function handleEnter(currentGuess) {
   console.log("entered handleEnter");
-  /*  validateWord(_?_); */
+  /*  isWord(_?_); */
   changeBackground(currentGuess, getWord);
   /* async function validateWord(currentGuess) {
     //================== CURRENTLY LEFT OFF HERE =====================
@@ -94,7 +92,7 @@ function handleEnter(currentGuess) {
   } */
   //change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
 
-  /* function validateWord() {}; */
+  /* function isWord() {}; */
 }
 
 function changeBackground(guess, word) {
@@ -125,8 +123,7 @@ function changeBackground(guess, word) {
   //change background color based on results of comparison
 }
 
-getWord();
-init();
+getWord("https://words.dev-apis.com/word-of-the-day");
 
 //============= SUPPORT FUNCTIONS ===========================
 
@@ -146,14 +143,15 @@ previousKey (needed for using backspace back to back on index > 3)
 
 Functions:
 
-- getWordOfTheDay
-- init (event listener)
-  * keyDown
-    - handleLetter (w/ support function isLetter())
-    - handleBackspace
-    - handleEnter
-      * validateWord
-      * changeBoxBackgroundColor
-    - preventDefault
+- getWordOfTheDay(url) 
+- keyDown(event)
+  * isLetter(key)
+    - handleLetter(letter)
+  * handleBackspace()
+  * handleEnter()
+    - isWord(userGuess)
+      * changeFontColor(currentAttempt)
+      * compareArrays(userGuessArray, wordOfTheDayArray)
+        - changeBoxBackgroundColor(exactMatch, closeMatch)
 
 */
