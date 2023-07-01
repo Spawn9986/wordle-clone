@@ -143,7 +143,7 @@ previousKey (needed for using backspace back to back on index > 3)
 
 Functions:
 
-- getWordOfTheDay(url) 
+- getWord(url) 
 - keyDown(event)
   * isLetter(key)
     - handleLetter(letter)
@@ -151,7 +151,10 @@ Functions:
   * handleEnter()
     - isWord(userGuess)
       * changeFontColor(currentAttempt)
-      * compareArrays(userGuessArray, wordOfTheDayArray)
-        - changeBoxBackgroundColor(exactMatch, closeMatch)
+      * compareArrays(usersGuessArray, retrievedWordArray)
+        - changeBoxBackgroundColor(exactMatches, closeMatches)
+        - isSolved(exactMatches)
+  * youLose(currentAttempt)
+  * youWin(isSolved)
 
 */
