@@ -49,7 +49,6 @@ function handleBackspace() {
   //currently index 3 is not working
   console.log("success");
   console.log(index);
-  //========== current issue: when index === 4 (after index 3 finishes) & prevKey != backspace doesnt work right ========
   if (index > 3) {
     if (previousKey === "Backspace") {
       boxes[index - 1].innerText = "";
@@ -99,6 +98,17 @@ Functions:
   * youWin(isSolved)
 
  */
+
+//================= KNOWN ISSUES TO FIX LATER =========
+/* 
+
+1 - in the handleBackspace(): when index === 4 (after index 3 finishes) & prevKey != backspace doesnt work right; it requires 2x backspace presses to get to work instead of 1 as expected
+
+2 - not sure how to use the word retrieved from the API in the handleEnter, compareArrays, etc. functions as it is asyncronous. I will use a temp word as filler for now just to get a working product
+
+3 - trying to refactor the code so that it is flows smoothly (makes sense and is clear and easily understood)
+
+*/
 
 //===================== USE LATER ====================
 
