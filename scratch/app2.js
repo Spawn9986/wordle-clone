@@ -1,14 +1,25 @@
 //============= GLOBAL VARIABLES ==============
-let response;
+let WOTD = "clean";
 //============= LOGIC =========================
 
-// retrieve word from API
-async function getWord(url) {
-  let response = await fetch(url);
-  response = await response.json();
-  return response;
-}
+/*  fetch("https://words.dev-apis.com/validate-word", {
+      method: "POST",
+      body: JSON.stringify({
+        "word": WOTD
+      })
+    })
+      .then((response) => response.json())
+      .then((json) => console.log(json)); */
 
-
-getWord("https://words.dev-apis.com/word-of-the-day");
-console.log("response", response);
+fetch("https://words.dev-apis.com/validate-word", {
+  method: "POST",
+  body: JSON.stringify({
+    word: WOTD,
+  }),
+})
+  .then(function (response) {
+    return response.json();
+  })
+  .then(function (json) {
+    console.log(json);
+  });

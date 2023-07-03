@@ -2,6 +2,7 @@
 const boxes = document.querySelectorAll(".itm");
 let index = 0;
 let previousKey;
+let tempWOTD = "clean";
 
 //============= LOGIC =========================
 
@@ -67,6 +68,19 @@ function handleBackspace() {
 
 function handleEnter() {
   console.log("entered handleEnter");
+  //create a POST request to check if users guess was a valid word
+  fetch("https://words.dev-apis.com/validate-word", {
+    method: "POST",
+    body: JSON.stringify({
+      word: tempWOTD,
+    }),
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (json) {
+      console.log(json);
+    });
 }
 
 //============ EVOKE INIT FUNCTIONS ========
@@ -104,7 +118,7 @@ Functions:
 
 1 - in the handleBackspace(): when index === 4 (after index 3 finishes) & prevKey != backspace doesnt work right; it requires 2x backspace presses to get to work instead of 1 as expected
 
-2 - not sure how to use the word retrieved from the API in the handleEnter, compareArrays, etc. functions as it is asyncronous. I will use a temp word as filler for now just to get a working product
+2 - Need to replace tempWOTD with word retirved from the Get request from the API fetch. Currently not sure how to use the retrieved word in handleEnter() scope, compareArrays, etc. functions with it being it is asyncronous.
 
 3 - trying to refactor the code so that it is flows smoothly (makes sense and is clear and easily understood)
 
@@ -131,18 +145,6 @@ Functions:
   console.log("entered handleEnter");
   //isWord(_?_);
   changeBackground(currentGuess, getWord);
-  /* async function validateWord(currentGuess) {
-    //================== CURRENTLY LEFT OFF HERE =====================
-    console.log("entered validateWord");
-    const response = await fetch("https://words.dev-apis.com/validate-word", {
-      method: "POST",
-      body: JSON.stringify({ word: currentGuess }),
-    });
-    console.log("response:", response);
-    const data = await response.json();
-    console.log("data", data);
-    console.log(data.isValid);
-    return data.isValid;
   } */
 //change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
 
