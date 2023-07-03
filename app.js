@@ -1,5 +1,8 @@
 //============= GLOBAL VARIABLES ==============
 const boxes = document.querySelectorAll(".itm");
+//convert nodelist returned from querySelectAll to an array
+let boxesArray = Array.from(boxes);
+
 let index = 0;
 let previousKey;
 let tempWOTD = "clean";
@@ -67,9 +70,8 @@ function handleBackspace() {
 }
 
 function handleEnter() {
-  console.log("entered handleEnter");
   //create a POST request to check if users guess was a valid word
-  fetch("https://words.dev-apis.com/validate-word", {
+  let isValid = fetch("https://words.dev-apis.com/validate-word", {
     method: "POST",
     body: JSON.stringify({
       word: tempWOTD,
@@ -79,8 +81,20 @@ function handleEnter() {
       return response.json();
     })
     .then(function (json) {
-      console.log(json);
+      console.log(json.validWord);
     });
+  /* if (isValid) {
+
+  } */
+
+  let boxesArrayOfLetters = [];
+  //iterate over the sub-array pushing the inner text of each into a new array
+  for (let i = 0; i < boxesArray.length; i++) {
+    boxesArrayOfLetters.push(boxesArray[i].innerText);
+    console.log(boxesArrayOfLetters);
+  }
+  //convert array of letters into a string (i.e., a word)
+  let string = boxesArrayOfLetters.join("");
 }
 
 //============ EVOKE INIT FUNCTIONS ========
@@ -125,32 +139,6 @@ Functions:
 */
 
 //===================== USE LATER ====================
-
-/* From handleEnter()
- //convert nodelist returned from querySelectAll to an array
- let arr = Array.from(boxes);
- // create sub-array of only index 0 through 5.
- arr = arr.slice(0, 5);
- let newArr = [];
- //iterate over the sub-array pushing the inner text of each into a new array
- for (let i = 0; i < arr.length; i++) {
-   newArr.push(arr[i].innerText);
- }
- //convert array of letters into a joined 5 letter string (i.e., a word)
- let string = newArr.join("");
- console.log(string);
- handleEnter(string); */
-
-/* function handleEnter(currentGuess) {
-  console.log("entered handleEnter");
-  //isWord(_?_);
-  changeBackground(currentGuess, getWord);
-  } */
-//change background color to none || close (up to # of letters (if only 1 letter --> only 1)) || correct
-
-//function isWord() {};
-//}
-//*/
 
 /* function changeBackground(guess, word) {
   //get the two arrays of current guess and the target word (of the day or random)

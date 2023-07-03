@@ -21,5 +21,5 @@ fetch("https://words.dev-apis.com/validate-word", {
     return response.json();
   })
   .then(function (json) {
-    console.log(json);
+    console.log(json.validWord);
   });
