@@ -83,18 +83,27 @@ function handleEnter() {
     .then(function (json) {
       console.log(json.validWord);
     });
-  /* if (isValid) {
+  if (isValid) {
+    // Want to compare retrieved word from API with the users guess
+    // IOT do this take querrySelectAll which outputs result in a nodelist to an array
+    let boxesArrayOfLetters = [];
+    //iterate over the sub-array pushing the inner text of each into a new array
+    for (let i = 0; i < boxesArray.length; i++) {
+      boxesArrayOfLetters.push(boxesArray[i].innerText);
+    }
+    //for the users guess, we only want the first 5 indexes (the current 5 letter guess) of the array
+    let slicedArray = boxesArrayOfLetters.slice(0, 5);
+    console.log("slice", slicedArray);
 
-  } */
+    //Eventual goal: compare retrived word from the API to the users guess
+    //convert API word from string to an array
+    let WOTDArray = tempWOTD.toUpperCase().split("");
 
-  let boxesArrayOfLetters = [];
-  //iterate over the sub-array pushing the inner text of each into a new array
-  for (let i = 0; i < boxesArray.length; i++) {
-    boxesArrayOfLetters.push(boxesArray[i].innerText);
-    console.log(boxesArrayOfLetters);
+    // now we can compare the two arrays
+  for(let i = 0; i < slicedArray; i++) {
+
+ }
   }
-  //convert array of letters into a string (i.e., a word)
-  let string = boxesArrayOfLetters.join("");
 }
 
 //============ EVOKE INIT FUNCTIONS ========
@@ -140,30 +149,6 @@ Functions:
 
 //===================== USE LATER ====================
 
-/* function changeBackground(guess, word) {
-  //get the two arrays of current guess and the target word (of the day or random)
-  //current guess
-  let arr = Array.from(boxes);
-  // create sub-array of only index 0 through 5.
-  arr = arr.slice(0, 5);
-  let newArr = [];
-  //iterate over the sub-array pushing the inner text of each into a new array
-  for (let i = 0; i < arr.length; i++) {
-    newArr.push(arr[i].innerText);
-  }
-  console.log(newArr);
-  //get the word of the day
-  let getWord = async function () {
-    let response = await fetch("https://words.dev-apis.com/word-of-the-day");
-    response = await response.json();
-    console.log(response);
-    return response;
-  };
-  //convert word of the day to an array
-  //let arrTargetWord = getWord.split("");
-  //console.log(newArr, arrTargetWord);
-  //target word
+//convert array of letters into a string (i.e., a word)
+//let string = boxesArrayOfLetters.join("");
 
-  //iterate over them and compare values
-  //change background color based on results of comparison
-} */
