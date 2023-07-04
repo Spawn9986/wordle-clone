@@ -2,24 +2,17 @@
 const boxes = document.querySelectorAll(".itm");
 //convert nodelist returned from querySelectAll to an array
 let boxesArray = Array.from(boxes);
-
-/* boxToGreen = boxes[0];
-boxToGreen.style.backgroundColor = "green"; */
+//take same array and get array of letters keyed by user
+let innerTextArray = mapOverArray(boxesArray);
 
 let index = 0;
 let previousKey;
 //**************** FIX LATER **************** NEED TO REPLACE tempWOTD WITH WORD RETRIVED FROM THE API FETCH REQUEST (GET). CURRENTLY NOT UNSURE HOW TO USE THE RETRIEVED WORD IN handleEnter() SCOPE, compareArrays, etc. FUNCTIONS WITH IT BEING ASYNCRONOUS. ************************/
 let tempWOTD = "clean";
 
-//============= LOGIC =========================
+//============= OVERVIEW FLOW =========================
 
-// retrieve word from API
-async function getWord(url) {
-  let response = await fetch(url);
-  response = await response.json();
-  console.log(response);
-  return response;
-}
+getWord("https://words.dev-apis.com/word-of-the-day");
 
 document.addEventListener("keydown", keyDown);
 
@@ -35,6 +28,22 @@ function keyDown(event) {
   } else event.preventDefault();
 
   previousKey = key;
+}
+
+//============== SUPPORTING ELEMENTS ===================
+
+function mapOverArray(array) {
+  return array.map(function (box) {
+    return box.innerText.toUpperCase();
+  });
+}
+
+// retrieve word from API
+async function getWord(url) {
+  let response = await fetch(url);
+  response = await response.json();
+  console.log("Word of the day:", response);
+  return response;
 }
 
 //check if the key pressed by user is a single letter using a regular expression which defines a search pattern for parsing and finding matches in a given string with the test() method. The /[a-zA-Z]/ regex means "match all strings that start with a letter".
@@ -55,8 +64,6 @@ function handleLetter(value) {
 
 function handleBackspace() {
   //currently index 3 is not working
-  console.log("success");
-  console.log(index);
   //****************** FIX LATER *************** WHEN INDEX === 4 (AFTER INDEX 3 FINISHED) & prevKey != BACKSPACE DOESN'T WORK: U HAVE TO PRESS IT 2X TO GET IT TO WORK *********/
   if (index > 3) {
     if (previousKey === "Backspace") {
@@ -75,48 +82,25 @@ function handleBackspace() {
 }
 
 function handleEnter() {
-  // for usersGuess, take querrySelectAll which outputs result in a nodelist to an array
-  let boxesArrayOfLetters = [];
-  //iterate over the sub-array pushing the inner text of each into a new array
-  for (let i = 0; i < boxesArray.length; i++) {
-    boxesArrayOfLetters.push(boxesArray[i].innerText);
-  }
-  //for the users guess, we only want the first 5 indexes (the current 5 letter guess) of the array
-  let usersGuessArray = boxesArrayOfLetters.slice(0, 5);
+  sliceUsersGuess(innerTextArray);
 
   //for users guess, convert array of letters into a string (i.e., a word)
-  let usersGuessString = boxesArrayOfLetters.join("");
+  let usersGuessString = sliceUsersGuess(innerTextArray).join("");
 
   //create a POST request to check if users guess was a valid word
-  let isValid = fetch("https://words.dev-apis.com/validate-word", {
-    method: "POST",
-    body: JSON.stringify({
-      //******* NEED TO CHANGE tempWOTD to usersGuess eventually ******
-      word: usersGuessString,
-    }),
-  })
-    .then(function (response) {
-      return response.json();
-    })
-    .then(function (json) {
-      console.log(json.validWord);
-    });
+  isValid("https://words.dev-apis.com/validate-word", usersGuessString);
   //******************* FIX LATER ************** NEED TO MAKE isValid WAIT FOR TRUE BC RIGHT NOW IT IS ENTERING EVEN IF FALSE BC ITS NOT WAITING FOR POST REQUEST RESPONSE *****/
   if (isValid) {
-    console.log("entered isValid if");
     // Want to compare retrieved word from API with the users guess
     //convert API word from string to an array
     let WOTDArray = tempWOTD.toUpperCase().split("");
 
-    console.log(usersGuessArray, WOTDArray);
-
     // compare the two arrays
-    for (let i = 0; i < usersGuessArray.length; i++) {
-      if (usersGuessArray[i] === WOTDArray[i]) {
+    for (let i = 0; i < sliceUsersGuess.length; i++) {
+      if (sliceUsersGuess[i] === WOTDArray[i]) {
         //change background color to correspond to result of comparison
         boxesArray[i].style.backgroundColor = "green";
-      } else if (WOTDArray.includes(usersGuessArray[i])) {
-        console.log("close match", usersGuessArray[i]);
+      } else if (WOTDArray.includes(sliceUsersGuess[i])) {
         boxesArray[i].style.backgroundColor = "yellow";
         //********************* FIX LATER ************ need to make it where it correlates to the number also (i.e., if users guess has 2 O's and API word only has 1 (vice versa)/
       } else boxesArray[i].style.backgroundColor = "grey";
@@ -124,9 +108,27 @@ function handleEnter() {
   }
 }
 
-//============ EVOKE INIT FUNCTIONS ========
+function sliceUsersGuess(array) {
+  //Only keep the first 5 indexes (the current 5 letter guess) of the array
+  let usersGuessArray = array.slice(0, 5);
+  return usersGuessArray;
+}
 
-getWord("https://words.dev-apis.com/word-of-the-day");
+async function isValid(postRequestURL, string) {
+  try {
+    const response = await fetch(postRequestURL, {
+      method: "POST",
+      body: JSON.stringify({
+        //******* NEED TO CHANGE tempWOTD to usersGuess eventually ******
+        word: string,
+      }),
+    });
+
+    const json = await response.json();
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 /* 
 Pre-planning Outline:
@@ -154,3 +156,16 @@ Functions:
   * youLose(currentAttempt)
   * youWin(isSolved)
  */
+
+//FOR LATER IF NEEDED
+/* function usersGuessArray(array) {
+  // for usersGuess, convert querrySelectAll which outputs result in a nodelist to an array
+  let boxesArrayOfLetters = [];
+  //iterate over the sub-array pushing the inner text of each into a new array
+  for (let i = 0; i < array.length; i++) {
+    boxesArrayOfLetters.push(array[i].innerText);
+  }
+  //Only keep the first 5 indexes (the current 5 letter guess) of the array
+  let usersGuessArray = boxesArrayOfLetters.slice(0, 5);
+  return usersGuessArray;
+} */
