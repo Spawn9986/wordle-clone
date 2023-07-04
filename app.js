@@ -3,6 +3,9 @@ const boxes = document.querySelectorAll(".itm");
 //convert nodelist returned from querySelectAll to an array
 let boxesArray = Array.from(boxes);
 
+/* boxToGreen = boxes[0];
+boxToGreen.style.backgroundColor = "green"; */
+
 let index = 0;
 let previousKey;
 //**************** FIX LATER **************** NEED TO REPLACE tempWOTD WITH WORD RETRIVED FROM THE API FETCH REQUEST (GET). CURRENTLY NOT UNSURE HOW TO USE THE RETRIEVED WORD IN handleEnter() SCOPE, compareArrays, etc. FUNCTIONS WITH IT BEING ASYNCRONOUS. ************************/
@@ -110,10 +113,13 @@ function handleEnter() {
     // compare the two arrays
     for (let i = 0; i < usersGuessArray.length; i++) {
       if (usersGuessArray[i] === WOTDArray[i]) {
-        console.log("exact match", usersGuessArray[i]);
+        //change background color to correspond to result of comparison
+        boxesArray[i].style.backgroundColor = "green";
       } else if (WOTDArray.includes(usersGuessArray[i])) {
         console.log("close match", usersGuessArray[i]);
-      } else console.log("No matches", usersGuessArray[i]);
+        boxesArray[i].style.backgroundColor = "yellow";
+        //********************* FIX LATER ************ need to make it where it correlates to the number also (i.e., if users guess has 2 O's and API word only has 1 (vice versa)/
+      } else boxesArray[i].style.backgroundColor = "grey";
     }
   }
 }
@@ -123,6 +129,8 @@ function handleEnter() {
 getWord("https://words.dev-apis.com/word-of-the-day");
 
 /* 
+Pre-planning Outline:
+
 Variables:
 
 wordOfTheDay (store retrieved word from API call to use later in functions)
@@ -145,5 +153,4 @@ Functions:
         - isSolved(exactMatches)
   * youLose(currentAttempt)
   * youWin(isSolved)
-
  */
