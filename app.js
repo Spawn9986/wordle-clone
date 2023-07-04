@@ -5,6 +5,7 @@ let boxesArray = Array.from(boxes);
 
 let index = 0;
 let previousKey;
+//************************ NEED TO REPLACE tempWOTD WITH WORD RETRIVED FROM THE API FETCH REQUEST (GET). CURRENTLY NOT UNSURE HOW TO USE THE RETRIEVED WORD IN handleEnter() SCOPE, compareArrays, etc. FUNCTIONS WITH IT BEING ASYNCRONOUS. ************************/
 let tempWOTD = "clean";
 
 //============= LOGIC =========================
@@ -53,6 +54,7 @@ function handleBackspace() {
   //currently index 3 is not working
   console.log("success");
   console.log(index);
+  //********************* WHEN INDEX === 4 (AFTER INDEX 3 FINISHED) & prevKey != BACKSPACE DOESN'T WORK: U HAVE TO PRESS IT 2X TO GET IT TO WORK *********/
   if (index > 3) {
     if (previousKey === "Backspace") {
       boxes[index - 1].innerText = "";
@@ -97,12 +99,14 @@ function handleEnter() {
     .then(function (json) {
       console.log(json.validWord);
     });
+  //********** NEED TO MAKE isValid WAIT FOR TRUE BC RIGHT NOW IT IS ENTERING EVEN IF FALSE BC ITS NOT WAITING FOR POST REQUEST RESPONSE *****/
   if (isValid) {
+    console.log("entered isValid if");
     // Want to compare retrieved word from API with the users guess
     //convert API word from string to an array
     let WOTDArray = tempWOTD.toUpperCase().split("");
 
-    // now we can compare the two arrays
+    // compare the two arrays
     for (let i = 0; i < usersGuessArray; i++) {
       if (usersGuessArray[i] === WOTDArray[i]) {
         console.log("exact match", usersGuessArray[i]);
@@ -142,14 +146,3 @@ Functions:
   * youWin(isSolved)
 
  */
-
-//================= KNOWN ISSUES TO FIX LATER =========
-/* 
-
-1 - in the handleBackspace(): when index === 4 (after index 3 finishes) & prevKey != backspace doesnt work right; it requires 2x backspace presses to get to work instead of 1 as expected
-
-2 - Need to replace tempWOTD with word retirved from the Get request from the API fetch. Currently not sure how to use the retrieved word in handleEnter() scope, compareArrays, etc. functions with it being it is asyncronous.
-
-3 - trying to refactor the code so that it is flows smoothly (makes sense and is clear and easily understood)
-
-*/
