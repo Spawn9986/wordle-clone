@@ -5,7 +5,7 @@ let boxesArray = Array.from(boxes);
 
 let index = 0;
 let previousKey;
-//************************ NEED TO REPLACE tempWOTD WITH WORD RETRIVED FROM THE API FETCH REQUEST (GET). CURRENTLY NOT UNSURE HOW TO USE THE RETRIEVED WORD IN handleEnter() SCOPE, compareArrays, etc. FUNCTIONS WITH IT BEING ASYNCRONOUS. ************************/
+//**************** FIX LATER **************** NEED TO REPLACE tempWOTD WITH WORD RETRIVED FROM THE API FETCH REQUEST (GET). CURRENTLY NOT UNSURE HOW TO USE THE RETRIEVED WORD IN handleEnter() SCOPE, compareArrays, etc. FUNCTIONS WITH IT BEING ASYNCRONOUS. ************************/
 let tempWOTD = "clean";
 
 //============= LOGIC =========================
@@ -54,7 +54,7 @@ function handleBackspace() {
   //currently index 3 is not working
   console.log("success");
   console.log(index);
-  //********************* WHEN INDEX === 4 (AFTER INDEX 3 FINISHED) & prevKey != BACKSPACE DOESN'T WORK: U HAVE TO PRESS IT 2X TO GET IT TO WORK *********/
+  //****************** FIX LATER *************** WHEN INDEX === 4 (AFTER INDEX 3 FINISHED) & prevKey != BACKSPACE DOESN'T WORK: U HAVE TO PRESS IT 2X TO GET IT TO WORK *********/
   if (index > 3) {
     if (previousKey === "Backspace") {
       boxes[index - 1].innerText = "";
@@ -80,7 +80,6 @@ function handleEnter() {
   }
   //for the users guess, we only want the first 5 indexes (the current 5 letter guess) of the array
   let usersGuessArray = boxesArrayOfLetters.slice(0, 5);
-  console.log("slice", usersGuessArray);
 
   //for users guess, convert array of letters into a string (i.e., a word)
   let usersGuessString = boxesArrayOfLetters.join("");
@@ -99,15 +98,17 @@ function handleEnter() {
     .then(function (json) {
       console.log(json.validWord);
     });
-  //********** NEED TO MAKE isValid WAIT FOR TRUE BC RIGHT NOW IT IS ENTERING EVEN IF FALSE BC ITS NOT WAITING FOR POST REQUEST RESPONSE *****/
+  //******************* FIX LATER ************** NEED TO MAKE isValid WAIT FOR TRUE BC RIGHT NOW IT IS ENTERING EVEN IF FALSE BC ITS NOT WAITING FOR POST REQUEST RESPONSE *****/
   if (isValid) {
     console.log("entered isValid if");
     // Want to compare retrieved word from API with the users guess
     //convert API word from string to an array
     let WOTDArray = tempWOTD.toUpperCase().split("");
 
+    console.log(usersGuessArray, WOTDArray);
+
     // compare the two arrays
-    for (let i = 0; i < usersGuessArray; i++) {
+    for (let i = 0; i < usersGuessArray.length; i++) {
       if (usersGuessArray[i] === WOTDArray[i]) {
         console.log("exact match", usersGuessArray[i]);
       } else if (WOTDArray.includes(usersGuessArray[i])) {
