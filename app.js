@@ -70,11 +70,25 @@ function handleBackspace() {
 }
 
 function handleEnter() {
+  // for usersGuess, take querrySelectAll which outputs result in a nodelist to an array
+  let boxesArrayOfLetters = [];
+  //iterate over the sub-array pushing the inner text of each into a new array
+  for (let i = 0; i < boxesArray.length; i++) {
+    boxesArrayOfLetters.push(boxesArray[i].innerText);
+  }
+  //for the users guess, we only want the first 5 indexes (the current 5 letter guess) of the array
+  let usersGuessArray = boxesArrayOfLetters.slice(0, 5);
+  console.log("slice", usersGuessArray);
+
+  //for users guess, convert array of letters into a string (i.e., a word)
+  let usersGuessString = boxesArrayOfLetters.join("");
+
   //create a POST request to check if users guess was a valid word
   let isValid = fetch("https://words.dev-apis.com/validate-word", {
     method: "POST",
     body: JSON.stringify({
-      word: tempWOTD,
+      //******* NEED TO CHANGE tempWOTD to usersGuess eventually ******
+      word: usersGuessString,
     }),
   })
     .then(function (response) {
@@ -85,24 +99,17 @@ function handleEnter() {
     });
   if (isValid) {
     // Want to compare retrieved word from API with the users guess
-    // IOT do this take querrySelectAll which outputs result in a nodelist to an array
-    let boxesArrayOfLetters = [];
-    //iterate over the sub-array pushing the inner text of each into a new array
-    for (let i = 0; i < boxesArray.length; i++) {
-      boxesArrayOfLetters.push(boxesArray[i].innerText);
-    }
-    //for the users guess, we only want the first 5 indexes (the current 5 letter guess) of the array
-    let slicedArray = boxesArrayOfLetters.slice(0, 5);
-    console.log("slice", slicedArray);
-
-    //Eventual goal: compare retrived word from the API to the users guess
     //convert API word from string to an array
     let WOTDArray = tempWOTD.toUpperCase().split("");
 
     // now we can compare the two arrays
-  for(let i = 0; i < slicedArray; i++) {
-
- }
+    for (let i = 0; i < usersGuessArray; i++) {
+      if (usersGuessArray[i] === WOTDArray[i]) {
+        console.log("exact match", usersGuessArray[i]);
+      } else if (WOTDArray.includes(usersGuessArray[i])) {
+        console.log("close match", usersGuessArray[i]);
+      } else console.log("No matches", usersGuessArray[i]);
+    }
   }
 }
 
@@ -146,9 +153,3 @@ Functions:
 3 - trying to refactor the code so that it is flows smoothly (makes sense and is clear and easily understood)
 
 */
-
-//===================== USE LATER ====================
-
-//convert array of letters into a string (i.e., a word)
-//let string = boxesArrayOfLetters.join("");
-
