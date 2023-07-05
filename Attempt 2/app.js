@@ -18,7 +18,10 @@ async function init() {
       currentGuess =
         currentGuess.substring(0, currentGuess.length - 1) + letter;
     }
-    //render the users keyed letters to the DOM. Since each index is 1 number behind (starts at index 0) we take the currentGuess character length - 1 to get the last available box; we also want the inner text;
+    //render the users keyed letters to each DOM elements innerText (update the visible text of the selected DOM element). Since indexes starts at 0 we take the currentGuess.length - 1 to get the index of the DOM element that corresponds to the current position of the guess:
+    //letters (from the querySelectAll) === DOM-Element
+    //letter (from the addLetter parameter) === usersKeyedLetter
+    //Thus, (the inner text of the DOM elements current index) = (the users keyed letter changed to uppercase); (same as let name[0] = "Jim; name[1] = "Ted"; name[2] = "Larry" but instead as DOM[0].innerText = "C"; DOM[1].innerText = "L"; DOM[2].innerText = "E")
     letters[currentGuess.length - 1].innerText = letter;
   }
   document.addEventListener("keydown", function handleKeyPress(event) {
