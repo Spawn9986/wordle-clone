@@ -50,6 +50,13 @@ async function init() {
     currentGuess = "";
   }
 
+  function backspace() {
+    //substring (start index, end index) where it doesnt include the end. Thus, removing last element. (i.e., if "C L E A" (indexes = 3; length = 4) --> "C L E" (indexes = 2; length = 3))
+    currentGuess = currentGuess.substring(0, currentGuess.length - 1);
+    //Once the last index is deleted --> set last index (.length will always be index + 1) to empty string
+    letters[ANSWER_LENGTH * currentRow + currentGuess.length].innerText = "";
+  }
+
   document.addEventListener("keydown", function handleKeyPress(event) {
     //event.key to capture the users key entered
     const action = event.key;
@@ -99,6 +106,8 @@ init();
     * For Later: validate the word
     * For Later: do all the marking as "correct", "close", or "wrong"
     * For Later: Did they win or lose?
-12 -
+12 - define/ fill in the backspace function
+    * create new string that does not include last index of old string
+    *
 
 */
