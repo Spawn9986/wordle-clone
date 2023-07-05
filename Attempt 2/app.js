@@ -39,6 +39,12 @@ async function init() {
       return;
     }
 
+    //TODO validate the word
+
+    //TODO do all the marking as "correct", "close", or "wrong"
+
+    //TODO did they win or lose?
+
     currentRow++;
     //new row, so reassign their current guess to empty string
     currentGuess = "";
@@ -89,5 +95,10 @@ init();
 11 - define/ fill in the commit function
     * if users guess !== expected character length
     * need a variable to track what row (likened to what attempt 1- 6) they are on in the DOM
+    * ensure the current DOM rendering is adjusted according to the current row/ attempt of the user
+    * For Later: validate the word
+    * For Later: do all the marking as "correct", "close", or "wrong"
+    * For Later: Did they win or lose?
+12 -
 
 */
