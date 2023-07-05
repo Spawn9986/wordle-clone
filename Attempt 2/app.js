@@ -51,9 +51,9 @@ async function init() {
   }
 
   function backspace() {
-    //substring (start index, end index) where it doesnt include the end. Thus, removing last element. (i.e., if "C L E A" (indexes = 3; length = 4) --> "C L E" (indexes = 2; length = 3))
+    //Lops off the last element
     currentGuess = currentGuess.substring(0, currentGuess.length - 1);
-    //Once the last index is deleted --> set last index (.length will always be index + 1) to empty string
+    //Once the last index is deleted now render on the DOM
     letters[ANSWER_LENGTH * currentRow + currentGuess.length].innerText = "";
   }
 
@@ -108,6 +108,6 @@ init();
     * For Later: Did they win or lose?
 12 - define/ fill in the backspace function
     * create new string that does not include last index of old string
-    *
+    * replace last index of current 
 
 */
