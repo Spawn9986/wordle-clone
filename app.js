@@ -67,6 +67,8 @@ async function init() {
       if (guessParts[i] === wordParts[i]) {
         //whereever i is correct --> mark as green (from "correct" CSS class); add classList bc they are all DOM Nodes
         letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
+        //the map variable above stores the map obj created from wordParts and each time the guessParts[i] exists in map we decrement the value to see what is left. For example, if "POTTY" is the correct word and we guess "POOLS" after the 1st iteration (the correct) it will decrement the O to zero so that on the second iteration (looking for what is close) there will not be an O left in the count. If we didnt have this it would give a false value saying one O is correct and the other O is close.
+        map[guessParts[i]]--;
       }
     }
 
@@ -190,5 +192,6 @@ The way this project was attacked was dealing with all the user interaction stuf
   * handle wrong matches
 16 - finish close matches from #15 but now handleing multiple letters
   * create an obj and map over the array of letters from the API word to keep track of number for each letter in word
+  * use the obj above to compare to the usersGuess array of letters index to prevent false values 
 
 */
