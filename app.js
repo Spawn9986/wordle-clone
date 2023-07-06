@@ -21,6 +21,8 @@ async function init() {
   const word = resObj.word.toUpperCase();
   // Could have instead used destructuring bc we know that the obj we are getting back has a property in it called "word"
   //const { word } = await res.json();
+  //create an array of letters from the API retrieved word (the correct answer) to compare to users guess later
+  const wordParts = word.split("");
 
   //once we have the word from the API we no longer need the loading icon
   setLoading(false);
@@ -55,7 +57,17 @@ async function init() {
 
     //TODO validate the word
 
-    //TODO do all the marking as "correct", "close", or "wrong"
+    //do all the marking as "correct", "close", or "wrong"
+    //create an array of letters from the users guess
+    const guessParts = currentGuess.split("");
+
+    for (let i = 0; i < ANSWER_LENGTH; i++) {
+      //mark as correct
+      if (guessParts[i] === wordParts[i]) {
+        //whereever i is correct --> ;add classList bc they are all DOM Nodes
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
+      }
+    }
 
     //TODO did they win or lose?
 
@@ -140,6 +152,10 @@ The way this project was attacked was dealing with all the user interaction stuf
     * create new string that does not include last index of old string
     * replace last index of current 
 13 - get the word from the API and return in uppercase
-14 - setLoading function which will check for isLoading. If loaded then hide the loading icon
+14 - setLoading function which will check for isLoading. If/ while loading show the loading icon
+15 - Go back and knock out the For Later: do all the marking as "correct", "close", or "wrong" from #11
+  * create an array of letters from the users guess
+  * create an array of letters from the retrieved API word
+  * handle exact matches
 
 */
