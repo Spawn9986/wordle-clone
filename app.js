@@ -23,6 +23,7 @@ async function init() {
   // const { word } = await res.json();
   // create an array of letters from the API retrieved word (the correct answer) to compare to users guess later
   const wordParts = word.split("");
+  let done = false;
 
   // once we have the word from the API we no longer need the loading icon
   setLoading(false);
@@ -52,6 +53,14 @@ async function init() {
   async function commit() {
     if (currentGuess.length !== ANSWER_LENGTH) {
       // do nothing
+      return;
+    }
+
+    // did the user win or lose?
+    if (currentGuess === word) {
+      // win
+      alert("you win!");
+      done = true;
       return;
     }
 
@@ -86,8 +95,6 @@ async function init() {
         letters[currentRow * ANSWER_LENGTH + i].classList.add("wrong");
       }
     }
-
-    // TODO did they win or lose?
 
     currentRow++;
     // new row, so reassign their current guess to empty string
@@ -196,5 +203,6 @@ The way this project was attacked was dealing with all the user interaction stuf
 16 - finish close matches from #15 but now handleing multiple letters
   * create an obj and map over the array of letters from the API word to keep track of number for each letter in word
   * use the obj above to compare to the usersGuess array of letters index to prevent false values 
+17 - Tackle the scenerio where the user wins the game and add a state for when the game is over (done)
 
 */
