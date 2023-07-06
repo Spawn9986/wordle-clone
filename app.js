@@ -21,6 +21,9 @@ async function init() {
   const word = resObj.word.toUpperCase();
   // Could have instead used destructuring bc we know that the obj we are getting back has a property in it called "word"
   //const { word } = await res.json();
+
+  //once we have the word from the API we no longer need the loading icon
+  setLoading(false);
   console.log(word);
 
   function addLetter(letter) {
@@ -96,8 +99,8 @@ function isLetter(letter) {
 }
 
 function setLoading(isLoading) {
-  //if loading is true --> add it; if false --> remove it; Use toggle instead of an if/then statement;
-  loadingDiv.classList.toggle("hidden", isLoading);
+  //if loading is true --> add it; if false --> remove it; Use toggle instead of an if/then statement; Toggle on "hidden" class from CSS if its not loading
+  loadingDiv.classList.toggle("hidden", !isLoading);
 }
 
 //=============== EVOKE ANY GLOBAL/ INITIAL FUNCTIONS =================================
@@ -137,5 +140,6 @@ The way this project was attacked was dealing with all the user interaction stuf
     * create new string that does not include last index of old string
     * replace last index of current 
 13 - get the word from the API and return in uppercase
+14 - setLoading function which will check for isLoading
 
 */
