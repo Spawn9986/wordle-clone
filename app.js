@@ -1,13 +1,15 @@
-//============= GLOBAL VARIABLES ==============
+//============= GLOBAL VARIABLES ======================================================
 //select the input boxes from the DOM and create a nodeList
 const letters = document.querySelectorAll(".scoreboard-letter");
 const loadingDiv = document.querySelector(".info-bar");
 const ANSWER_LENGTH = 5;
 
-//=============== LOGIC =======================
+//=============== INITIAL STATE UPON LOAD ==============================================
 
 //create a wrapping function that will allow us to do await wherever we want to later on
 async function init() {
+  //=============== SUB-FUNCTIONS (ATTACKED BY ORDER OF PREFERENCE) =======================
+
   let currentGuess = "";
   //the DOM equivalent of what attempt (1 - 6) in the gameplay the user is on
   let currentRow = 0;
@@ -57,6 +59,8 @@ async function init() {
     letters[ANSWER_LENGTH * currentRow + currentGuess.length].innerText = "";
   }
 
+  //=============== SKELETON/ OUTLINE (MAIN DELEGATING FUNCTION) ======================
+
   document.addEventListener("keydown", function handleKeyPress(event) {
     //event.key to capture the users key entered
     const action = event.key;
@@ -75,14 +79,21 @@ async function init() {
   });
 }
 
+//=============== SUPPORTING/ TERTIARY FUNCTIONS ======================================
+
 //add a function to check whether or not the users key was a letter (a valid keystroke) using a regular expression
 function isLetter(letter) {
   return /^[a-zA-Z]$/.test(letter);
 }
 
+//=============== EVOKE ANY GLOBAL/ INITIAL FUNCTIONS =================================
+
 init();
 
-//=================== FLOW ===================
+//================ END OF CODE ========================================================
+
+//=================== FLOW OF PROJECT==================================================
+
 /* 
 
 1 - Select DOM elements
