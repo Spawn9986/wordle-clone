@@ -64,8 +64,20 @@ async function init() {
     for (let i = 0; i < ANSWER_LENGTH; i++) {
       //mark as correct
       if (guessParts[i] === wordParts[i]) {
-        //whereever i is correct --> ;add classList bc they are all DOM Nodes
+        //whereever i is correct --> mark as green (from "correct" CSS class); add classList bc they are all DOM Nodes
         letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
+      }
+    }
+
+    for (let i = 0; i < ANSWER_LENGTH; i++) {
+      if (guessParts[i] === wordParts[i]) {
+        // do nothing, we already did it
+      } else if (
+        wordParts.includes(guessParts[i]) /* TODO make this more accurate */
+      ) {
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("close");
+      } else {
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("wrong");
       }
     }
 
@@ -157,5 +169,6 @@ The way this project was attacked was dealing with all the user interaction stuf
   * create an array of letters from the users guess
   * create an array of letters from the retrieved API word
   * handle exact matches
+  * handle close matches
 
 */
