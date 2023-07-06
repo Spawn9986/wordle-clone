@@ -95,6 +95,11 @@ function isLetter(letter) {
   return /^[a-zA-Z]$/.test(letter);
 }
 
+function setLoading(isLoading) {
+  //if loading is true --> add it; if false --> remove it; Use toggle instead of an if/then statement;
+  loadingDiv.classList.toggle("hidden", isLoading);
+}
+
 //=============== EVOKE ANY GLOBAL/ INITIAL FUNCTIONS =================================
 
 init();
