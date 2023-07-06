@@ -89,9 +89,14 @@ body {
 }
 
 .info-bar {
+  visibility: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.show {
+  visibility: visible;
 }
 
 /* winner animation */

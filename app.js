@@ -99,8 +99,8 @@ function isLetter(letter) {
 }
 
 function setLoading(isLoading) {
-  //if loading is true --> add it; if false --> remove it; Use toggle instead of an if/then statement; Toggle on "hidden" class from CSS if its not loading
-  loadingDiv.classList.toggle("hidden", !isLoading);
+  //if loading is true --> show it; if false --> hide it; Use toggle instead of an if/then statement; Toggle on "show" class (it defaults to hidden do to the cascade in the CSS: info-bar visibility: hidden is above show visibility: visible) when it is loading
+  loadingDiv.classList.toggle("show", isLoading);
 }
 
 //=============== EVOKE ANY GLOBAL/ INITIAL FUNCTIONS =================================
@@ -140,6 +140,6 @@ The way this project was attacked was dealing with all the user interaction stuf
     * create new string that does not include last index of old string
     * replace last index of current 
 13 - get the word from the API and return in uppercase
-14 - setLoading function which will check for isLoading
+14 - setLoading function which will check for isLoading. If loaded then hide the loading icon
 
 */
