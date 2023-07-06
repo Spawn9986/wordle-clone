@@ -3,6 +3,7 @@
 const letters = document.querySelectorAll(".scoreboard-letter");
 const loadingDiv = document.querySelector(".info-bar");
 const ANSWER_LENGTH = 5;
+const ROUND = 6;
 
 // create a wrapping function that will allow us to do await wherever we want to later on
 async function init() {
@@ -11,6 +12,7 @@ async function init() {
   let currentGuess = "";
   // the DOM equivalent of what attempt (1 - 6) in the gameplay the user is on
   let currentRow = 0;
+  let isLoading = true;
 
   // request the word from the API
   const res = await fetch(
@@ -27,6 +29,7 @@ async function init() {
 
   // once we have the word from the API we no longer need the loading icon
   setLoading(false);
+  isLoading = false;
   console.log(word);
 
   function addLetter(letter) {
@@ -99,6 +102,11 @@ async function init() {
     currentRow++;
     // new row, so reassign their current guess to empty string
     currentGuess = "";
+
+    if (currentRow === ROUND) {
+      alert(`you lose, the word was ${word}`);
+      done = true;
+    }
   }
 
   function backspace() {
@@ -111,6 +119,11 @@ async function init() {
   // =============== SKELETON/ OUTLINE (MAIN DELEGATING FUNCTION) ======================
 
   document.addEventListener("keydown", function handleKeyPress(event) {
+    if (done || isLoading) {
+      // do nothing
+      return;
+    }
+
     // event.key to capture the users key entered
     const action = event.key;
 
@@ -204,5 +217,7 @@ The way this project was attacked was dealing with all the user interaction stuf
   * create an obj and map over the array of letters from the API word to keep track of number for each letter in word
   * use the obj above to compare to the usersGuess array of letters index to prevent false values 
 17 - Tackle the scenerio where the user wins the game and add a state for when the game is over (done)
+18 - Tackle the scenerio where the user loses
+19 - make it where when done or isLoading it stops listening for the users key press (event listener)
 
 */
