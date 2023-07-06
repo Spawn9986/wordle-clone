@@ -1,50 +1,50 @@
-//============= GLOBAL VARIABLES ======================================================
-//select the input boxes from the DOM and create a nodeList
+// ============= GLOBAL VARIABLES ======================================================
+// select the input boxes from the DOM and create a nodeList
 const letters = document.querySelectorAll(".scoreboard-letter");
 const loadingDiv = document.querySelector(".info-bar");
 const ANSWER_LENGTH = 5;
 
-//create a wrapping function that will allow us to do await wherever we want to later on
+// create a wrapping function that will allow us to do await wherever we want to later on
 async function init() {
-  //=============== SUB-FUNCTIONS (ATTACKED BY ORDER OF PREFERENCE) =======================
+  // =============== SUB-FUNCTIONS (ATTACKED BY ORDER OF PREFERENCE) =======================
 
   let currentGuess = "";
-  //the DOM equivalent of what attempt (1 - 6) in the gameplay the user is on
+  // the DOM equivalent of what attempt (1 - 6) in the gameplay the user is on
   let currentRow = 0;
 
-  //request the word from the API
+  // request the word from the API
   const res = await fetch(
     "https://words.dev-apis.com/word-of-the-day?random=1"
   );
 
   const resObj = await res.json();
   const word = resObj.word.toUpperCase();
-  // Could have instead used destructuring bc we know that the obj we are getting back has a property in it called "word"
-  //const { word } = await res.json();
-  //create an array of letters from the API retrieved word (the correct answer) to compare to users guess later
+  // could have instead used destructuring bc we know that the obj we are getting back has a property in it called "word"
+  // const { word } = await res.json();
+  // create an array of letters from the API retrieved word (the correct answer) to compare to users guess later
   const wordParts = word.split("");
 
-  //once we have the word from the API we no longer need the loading icon
+  // once we have the word from the API we no longer need the loading icon
   setLoading(false);
   console.log(word);
 
   function addLetter(letter) {
     if (currentGuess.length < ANSWER_LENGTH) {
-      //add letter to the end
+      // add letter to the end
       currentGuess += letter;
     } else {
-      //if on the last letter --> replace last letter
+      // if on the last letter --> replace last letter
       currentGuess =
         currentGuess.substring(0, currentGuess.length - 1) + letter;
     }
-    //render the users keyed letters on the correlating DOM elements innerText:
-    //currentGuess.length - 1; indexes start at 0 (not 1). Thus, we get the index of the DOM element that corresponds to the current position of the users guess
-    //letters (from the querySelectAll) acting as the DOM element
-    //letter (from the addLetter parameter) acting as the usersKeyedLetter
+    // render the users keyed letters on the correlating DOM elements innerText:
+    // currentGuess.length - 1; indexes start at 0 (not 1). Thus, we get the index of the DOM element that corresponds to the current position of the users guess
+    // letters (from the querySelectAll) acting as the DOM element
+    // letter (from the addLetter parameter) acting as the usersKeyedLetter
     // becomes --> letters[currentGuess.length - 1].innerText = letter;
-    //Where (the inner text of the DOM elements current index) = (the users keyed letter changed to uppercase);
-    //Same concept as let name[0] = "Jim; name[1] = "Ted"; name[2] = "Larry" but instead --> DOM[0].innerText = "C"; DOM[1].innerText = "L"; DOM[2].innerText = "E")
-    //to ensure we render on the DOM element of the current row (attempt) we add ANSWER_LENGTH (always 5) * currentRow (starting at 0) in front to account for what has already taken place. Thus, row 1: [5 * 0 + currentGuess] --> current Guess starts at 0; row 2: [5 * 1 + currentGuess] --> currentGuess starts at 6 etc.
+    // where (the inner text of the DOM elements current index) = (the users keyed letter changed to uppercase);
+    // same concept as let name[0] = "Jim; name[1] = "Ted"; name[2] = "Larry" but instead --> DOM[0].innerText = "C"; DOM[1].innerText = "L"; DOM[2].innerText = "E")
+    // to ensure we render on the DOM element of the current row (attempt) we add ANSWER_LENGTH (always 5) * currentRow (starting at 0) in front to account for what has already taken place. Thus, row 1: [5 * 0 + currentGuess] --> current Guess starts at 0; row 2: [5 * 1 + currentGuess] --> currentGuess starts at 6 etc.
     letters[ANSWER_LENGTH * currentRow + currentGuess.length - 1].innerText =
       letter;
   }
@@ -55,19 +55,19 @@ async function init() {
       return;
     }
 
-    //TODO validate the word
+    // TODO validate the word
 
-    //do all the marking as "correct", "close", or "wrong"
-    //create an array of letters from the users guess
+    // do all the marking as "correct", "close", or "wrong"
+    // create an array of letters from the users guess
     const guessParts = currentGuess.split("");
     const map = makeMap(wordParts);
 
     for (let i = 0; i < ANSWER_LENGTH; i++) {
-      //mark as correct
+      // mark as correct
       if (guessParts[i] === wordParts[i]) {
-        //whereever i is correct --> mark as green (from "correct" CSS class); add classList bc they are all DOM Nodes
+        // whereever i is correct --> mark as green (from "correct" CSS class); add classList bc they are all DOM Nodes
         letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
-        //the map variable above stores the map obj created from wordParts and each time the guessParts[i] exists in map we decrement the value to see what is left. For example, if "POTTY" is the correct word and we guess "POOLS" after the 1st iteration (the correct) it will decrement the O to zero so that on the second iteration (looking for what is close) there will not be an O left in the count. If we didnt have this it would give a false value saying one O is correct and the other O is close.
+        // the map variable above stores the map obj created from wordParts and each time the guessParts[i] exists in map we decrement the value to see what is left. For example, if "POTTY" is the correct word and we guess "POOLS" after the 1st iteration (the correct) it will decrement the O to zero so that on the second iteration (looking for what is close) there will not be an O left in the count. If we didnt have this it would give a false value saying one O is correct and the other O is close.
         map[guessParts[i]]--;
       }
     }
@@ -76,37 +76,40 @@ async function init() {
       if (guessParts[i] === wordParts[i]) {
         // do nothing, we already did it
       } else if (
-        wordParts.includes(guessParts[i]) /* TODO make this more accurate */
+        // map[guessParts[i]] is what we have been decrementing in the first iteration above to ensure no false values
+        // mark as close
+        wordParts.includes(guessParts[i] && map[guessParts[i]] > 0)
       ) {
         letters[currentRow * ANSWER_LENGTH + i].classList.add("close");
+        map[guessParts[i]]--;
       } else {
         letters[currentRow * ANSWER_LENGTH + i].classList.add("wrong");
       }
     }
 
-    //TODO did they win or lose?
+    // TODO did they win or lose?
 
     currentRow++;
-    //new row, so reassign their current guess to empty string
+    // new row, so reassign their current guess to empty string
     currentGuess = "";
   }
 
   function backspace() {
-    //Lops off the last element
+    // lops off the last element
     currentGuess = currentGuess.substring(0, currentGuess.length - 1);
-    //Once the last index is deleted now render on the DOM
+    // once the last index is deleted now render on the DOM
     letters[ANSWER_LENGTH * currentRow + currentGuess.length].innerText = "";
   }
 
-  //=============== SKELETON/ OUTLINE (MAIN DELEGATING FUNCTION) ======================
+  // =============== SKELETON/ OUTLINE (MAIN DELEGATING FUNCTION) ======================
 
   document.addEventListener("keydown", function handleKeyPress(event) {
-    //event.key to capture the users key entered
+    // event.key to capture the users key entered
     const action = event.key;
 
-    //if users key press is Enter -->
+    // if users key press is Enter -->
     if (action === "Enter") {
-      //User tries to commit a guess
+      // user tries to commit a guess
       commit();
     } else if (action === "Backspace") {
       backspace();
@@ -118,24 +121,24 @@ async function init() {
   });
 }
 
-//=============== SUPPORTING/ TERTIARY FUNCTIONS ======================================
+// =============== SUPPORTING/ TERTIARY FUNCTIONS ======================================
 
-//add a function to check whether or not the users key was a letter (a valid keystroke) using a regular expression
+// add a function to check whether or not the users key was a letter (a valid keystroke) using a regular expression
 function isLetter(letter) {
   return /^[a-zA-Z]$/.test(letter);
 }
 
 function setLoading(isLoading) {
-  //if loading is true --> show it; if false --> hide it; Use toggle instead of an if/then statement; Toggle on "show" class (it defaults to hidden do to the cascade in the CSS: info-bar visibility: hidden is above show visibility: visible) when it is loading
+  // if loading is true --> show it; if false --> hide it; Use toggle instead of an if/then statement; Toggle on "show" class (it defaults to hidden do to the cascade in the CSS: info-bar visibility: hidden is above show visibility: visible) when it is loading
   loadingDiv.classList.toggle("show", isLoading);
 }
 
-//keep track of the amount of letters by adding letters to an object
+// keep track of the amount of letters by adding letters to an object
 function makeMap(array) {
   const obj = {};
   for (let i = 0; i < array.length; i++) {
     const letter = array[i];
-    //if it exists
+    // if it exists
     if (obj[letter]) {
       obj[letter]++;
     } else {
@@ -146,13 +149,13 @@ function makeMap(array) {
   return obj;
 }
 
-//=============== EVOKE ANY GLOBAL/ INITIAL FUNCTIONS =================================
+// =============== EVOKE ANY GLOBAL/ INITIAL FUNCTIONS =================================
 
 init();
 
-//================ END OF CODE ========================================================
+// ================ END OF CODE ========================================================
 
-//=================== FLOW OF PROJECT==================================================
+// =================== FLOW OF PROJECT==================================================
 
 /* 
 
