@@ -60,6 +60,7 @@ async function init() {
     //do all the marking as "correct", "close", or "wrong"
     //create an array of letters from the users guess
     const guessParts = currentGuess.split("");
+    const map = makeMap(wordParts);
 
     for (let i = 0; i < ANSWER_LENGTH; i++) {
       //mark as correct
@@ -127,6 +128,22 @@ function setLoading(isLoading) {
   loadingDiv.classList.toggle("show", isLoading);
 }
 
+//keep track of the amount of letters by adding letters to an object
+function makeMap(array) {
+  const obj = {};
+  for (let i = 0; i < array.length; i++) {
+    const letter = array[i];
+    //if it exists
+    if (obj[letter]) {
+      obj[letter]++;
+    } else {
+      obj[letter] = 1;
+    }
+  }
+
+  return obj;
+}
+
 //=============== EVOKE ANY GLOBAL/ INITIAL FUNCTIONS =================================
 
 init();
@@ -169,6 +186,9 @@ The way this project was attacked was dealing with all the user interaction stuf
   * create an array of letters from the users guess
   * create an array of letters from the retrieved API word
   * handle exact matches
-  * handle close matches
+  * handle close matches except multiple letters
+  * handle wrong matches
+16 - finish close matches from #15 but now handleing multiple letters
+  * create an obj and map over the array of letters from the API word to keep track of number for each letter in word
 
 */
