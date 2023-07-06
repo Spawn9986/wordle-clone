@@ -4,8 +4,6 @@ const letters = document.querySelectorAll(".scoreboard-letter");
 const loadingDiv = document.querySelector(".info-bar");
 const ANSWER_LENGTH = 5;
 
-//=============== INITIAL STATE UPON LOAD ==============================================
-
 //create a wrapping function that will allow us to do await wherever we want to later on
 async function init() {
   //=============== SUB-FUNCTIONS (ATTACKED BY ORDER OF PREFERENCE) =======================
@@ -13,6 +11,17 @@ async function init() {
   let currentGuess = "";
   //the DOM equivalent of what attempt (1 - 6) in the gameplay the user is on
   let currentRow = 0;
+
+  //request the word from the API
+  const res = await fetch(
+    "https://words.dev-apis.com/word-of-the-day?random=1"
+  );
+
+  const resObj = await res.json();
+  const word = resObj.word.toUpperCase();
+  // Could have instead used destructuring bc we know that the obj we are getting back has a property in it called "word"
+  //const { word } = await res.json();
+  console.log(word);
 
   function addLetter(letter) {
     if (currentGuess.length < ANSWER_LENGTH) {
@@ -96,6 +105,8 @@ init();
 
 /* 
 
+The way this project was attacked was dealing with all the user interaction stuff first (responding to keys pressed etc) and then talking to the backend and validation stuff after (getting the word from API, validating if users guess was a valid word, etc).
+
 1 - Select DOM elements
 2 - Add event listener with keydown function
 3 - Setup the keydown function by capturing the users key press and storing it into a variable
@@ -120,5 +131,6 @@ init();
 12 - define/ fill in the backspace function
     * create new string that does not include last index of old string
     * replace last index of current 
+13 - get the word from the API and return in uppercase
 
 */
