@@ -72,6 +72,14 @@ async function init() {
     const validWord = resObj.validWord;
     //could also write it { validWord } = resObj;
 
+    isLoading = false;
+    setLoading(false);
+
+    if (!validWord) {
+      markInvalidWord();
+      return;
+    }
+
     // do all the marking as "correct", "close", or "wrong"
     // create an array of letters from the users guess
     const guessParts = currentGuess.split("");
@@ -126,6 +134,18 @@ async function init() {
     currentGuess = currentGuess.substring(0, currentGuess.length - 1);
     // once the last index is deleted now render on the DOM
     letters[ANSWER_LENGTH * currentRow + currentGuess.length].innerText = "";
+  }
+
+  function markInvalidWord() {
+    // alert("not a valid word");
+    // when the invalid class is added to the element it only works the first time (when only add is used). Bc adding another "invalid" on top of what is already there "invalid" does not alter its state. Thus, we have to remove it so that it can be added again each time. We are using a "repaint technique" below to overcome this. It removes it just long enough using the setTimeout so that I can add it back.
+    for (let i = 0; i < ANSWER_LENGTH; i++) {
+      letters[currentRow * ANSWER_LENGTH + i].classList.remove("invalid");
+
+      setTimeout(function () {
+        letters[currentRow * ANSWER_LENGTH + i].classList.add("invalid");
+      }, 20);
+    }
   }
 
   // =============== SKELETON/ OUTLINE (MAIN DELEGATING FUNCTION) ======================
@@ -232,6 +252,7 @@ The way this project was attacked was dealing with all the user interaction stuf
 18 - Tackle the scenerio where the user loses
 19 - make it where when done or isLoading it stops listening for the users key press (event listener)
 20 - Add setTimeout to ensure the boxes turn green prior to the alert/ model occurring
-21 - Do POST request to API to validate word
+21 - Do POST request to API to validate word and alter loading state after finished
+22 - create a function to mark an invalid word
 
 */
