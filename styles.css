@@ -22,18 +22,18 @@ body {
 }
 
 .scoreboard {
-  max-width: 395px;
+  max-width: 440px;
   width: 100%;
   margin: 10px auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   row-gap: 10px;
-  column-gap: 7px;
+  column-gap: 5px;
 }
 
 .scoreboard-letter {
-  height: 65px;
-  width: 65px;
+  height: 85px;
+  width: 85px;
   font-size: 40px;
   text-transform: uppercase;
   border: 3px solid #ccc;
