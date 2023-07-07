@@ -10,7 +10,7 @@
 
 <h2>Project Screenshots:</h2>
 
-<img src="https://ih1.redbubble.net/image.3274277885.2023/st,small,507x507-pad,600x600,f8f8f8.jpg" alt="project-flow-chart" width="500" height="500/">
+<img src="https://github.com/Spawn9986/wordle-clone/blob/main/Pics/Wordle%20Screenshot.png" alt="project-flow-chart" width="604" height="758/">
 
 <h2>💻 Built with</h2>
 
