@@ -118,7 +118,6 @@ async function init() {
           ) {
             // no nothing, we already did it
           } else {
-            console.log(guessParts[i], alphabetLetter[i].innerText);
             if (alphabetLetter[j].innerText === guessParts[i]) {
               alphabetLetter[j].classList.add("wrong");
             }
