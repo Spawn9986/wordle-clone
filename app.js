@@ -91,6 +91,7 @@ async function init() {
         // whereever i is correct --> mark as green (from "correct" CSS class); add classList bc they are all DOM Nodes
         letters[currentRow * ANSWER_LENGTH + i].classList.add("correct");
         // the map variable above stores the map obj created from wordParts and each time the guessParts[i] exists in map we decrement the value to see what is left. For example, if "POTTY" is the correct word and we guess "POOLS" after the 1st iteration (the correct) it will decrement the O to zero so that on the second iteration (looking for what is close) there will not be an O left in the count. If we didnt have this it would give a false value saying one O is correct and the other O is close.
+        console.log(map);
         map[guessParts[i]]--;
       }
     }
@@ -118,7 +119,7 @@ async function init() {
       //set a timeout here to ensure that the boxes turn green (the correct class is applied) prior to the alert "you win" (modal)
       setTimeout(function () {
         alert("you win!");
-      }, 10);
+      }, 20);
       // add the "winner" class animation from CSS
       document.querySelector(".brand").classList.add("winner");
       done = true;

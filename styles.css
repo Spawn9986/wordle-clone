@@ -34,13 +34,28 @@ body {
 .scoreboard-letter {
   height: 65px;
   width: 65px;
-  font-size: 30px;
+  font-size: 40px;
   text-transform: uppercase;
   border: 3px solid #ccc;
   font-weight: bold;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .scoreboard {
+    max-width: 100%;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    column-gap: 7px;
+  }
+
+  .scoreboard-letter {
+    height: 50px;
+    width: 50px;
+    font-size: 30px;
+  }
 }
 
 .correct {
