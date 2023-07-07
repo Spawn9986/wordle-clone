@@ -18,22 +18,22 @@ body {
 }
 
 .brand {
-  font-size: 30px;
+  font-size: 40px;
 }
 
 .scoreboard {
-  max-width: 295px;
+  max-width: 395px;
   width: 100%;
   margin: 10px auto;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   row-gap: 10px;
-  column-gap: 5px;
+  column-gap: 7px;
 }
 
 .scoreboard-letter {
-  height: 45px;
-  width: 45px;
+  height: 65px;
+  width: 65px;
   font-size: 30px;
   text-transform: uppercase;
   border: 3px solid #ccc;
