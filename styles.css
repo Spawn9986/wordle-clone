@@ -57,6 +57,15 @@ body {
     width: 50px;
     font-size: 30px;
   }
+
+  .alphabet {
+    max-width: 80%;
+    margin: 10px auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    row-gap: 7px;
+    column-gap: 4px;
+  }
 }
 
 .correct {
@@ -159,4 +168,27 @@ body {
 
 .winner {
   animation: rainbow 4s infinite linear;
+}
+
+.alphabet {
+  color: blue;
+  max-width: 440px;
+  width: 100%;
+  margin: 10px auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+  row-gap: 10px;
+  column-gap: 5px;
+}
+
+.alphabet-letter {
+  height: 35px;
+  width: 35px;
+  font-size: 20px;
+  text-transform: uppercase;
+  border: 3px solid #ccc;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

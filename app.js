@@ -2,6 +2,7 @@
 // select the input boxes from the DOM and create a nodeList
 const letters = document.querySelectorAll(".scoreboard-letter");
 const loadingDiv = document.querySelector(".info-bar");
+const alphabetLetter = document.querySelectorAll(".alphabet-letter");
 const ANSWER_LENGTH = 5;
 const ROUND = 6;
 
@@ -108,6 +109,21 @@ async function init() {
         map[guessParts[i]]--;
       } else {
         letters[currentRow * ANSWER_LENGTH + i].classList.add("wrong");
+        for (let j = 0; j < alphabetLetter.length; j++) {
+          if (guessParts[i] === wordParts[i]) {
+            // do nothing, we already did it
+          } else if (
+            wordParts.includes(guessParts[i]) &&
+            map[guessParts[i]] > 0
+          ) {
+            // no nothing, we already did it
+          } else {
+            console.log(guessParts[i], alphabetLetter[i].innerText);
+            if (alphabetLetter[j].innerText === guessParts[i]) {
+              alphabetLetter[j].classList.add("wrong");
+            }
+          }
+        }
       }
     }
 
