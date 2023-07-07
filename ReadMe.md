@@ -20,3 +20,5 @@ Technologies used in the project:
 
 - CSS
 - Javascript
+
+<a href="https://spawn9986.github.io/wordle-clone/">Live Demo</a>
