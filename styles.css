@@ -46,9 +46,10 @@ body {
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .scoreboard {
-    max-width: 100%;
+    max-width: 80%;
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
-    column-gap: 7px;
+    row-gap: 7px;
+    column-gap: 5px;
   }
 
   .scoreboard-letter {
