@@ -59,15 +59,18 @@ async function init() {
       return;
     }
 
-    // did the user win or lose?
-    if (currentGuess === word) {
-      // win
-      alert("you win!");
-      done = true;
-      return;
-    }
+    // validate the word
+    // loading from API
+    isLoading = true;
+    setLoading(true);
+    const res = await fetch("https://words.dev-apis.com/validate-word", {
+      method: "POST",
+      body: JSON.stringify({ word: currentGuess }),
+    });
 
-    // TODO validate the word
+    const resObj = await res.json();
+    const validWord = resObj.validWord;
+    //could also write it { validWord } = resObj;
 
     // do all the marking as "correct", "close", or "wrong"
     // create an array of letters from the users guess
@@ -100,13 +103,22 @@ async function init() {
     }
 
     currentRow++;
-    // new row, so reassign their current guess to empty string
-    currentGuess = "";
 
-    if (currentRow === ROUND) {
+    // did the user win or lose?
+    if (currentGuess === word) {
+      // win
+      //set a timeout here to ensure that the boxes turn green (the correct class is applied) prior to the alert "you win" (modal)
+      setTimeout(function () {
+        alert("you win!");
+      }, 0);
+      done = true;
+      return;
+    } else if (currentRow === ROUND) {
       alert(`you lose, the word was ${word}`);
       done = true;
     }
+    // new row, so reassign their current guess to empty string
+    currentGuess = "";
   }
 
   function backspace() {
@@ -219,5 +231,7 @@ The way this project was attacked was dealing with all the user interaction stuf
 17 - Tackle the scenerio where the user wins the game and add a state for when the game is over (done)
 18 - Tackle the scenerio where the user loses
 19 - make it where when done or isLoading it stops listening for the users key press (event listener)
+20 - Add setTimeout to ensure the boxes turn green prior to the alert/ model occurring
+21 - Do POST request to API to validate word
 
 */
