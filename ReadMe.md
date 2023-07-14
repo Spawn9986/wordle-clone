@@ -27,4 +27,3 @@ Technologies used in the project:
 
 <a href="https://www.youtube.com/watch?v=xTGv6wOTtdM&ab_channel=ShawnC">Video Demo</a>
 
-https://www.youtube.com/watch?v=xTGv6wOTtdM&ab_channel=ShawnC
